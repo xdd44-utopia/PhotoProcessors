@@ -2,13 +2,15 @@ from PIL import Image
 import numpy as np
 import os
 import random
+from tqdm import tqdm
 
-dirName = "Dark"
+dirName = "../Dark"
+dirName = "../Light"
 size = 1000
 
 collection = []
 
-for imagePath in os.listdir(dirName):
+for imagePath in tqdm(os.listdir(dirName)):
 	if (imagePath.endswith(".jpg") or imagePath.endswith(".JPG") or imagePath.endswith(".Jpg")):
 		im = Image.open(dirName + "/" + imagePath)
 		if (min(im.size[0], im.size[1]) < size):
@@ -25,7 +27,7 @@ for imagePath in os.listdir(dirName):
 
 random.shuffle(collection)
 
-for i in range(10):
+for i in tqdm(range(10)):
 	mix = []
 	for j in range(8):
 		mix.append(collection[i * 8 + j])

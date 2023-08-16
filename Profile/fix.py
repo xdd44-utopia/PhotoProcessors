@@ -47,7 +47,7 @@ for x in tqdm(range(w)):
 		if (not done):
 			colors.append(Color(color))
 colors.sort(reverse=True)
-for i in range(6):
+for i in range(20):
 	given_colors.append(colors[i].color)
 
 print(given_colors)

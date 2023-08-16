@@ -25,6 +25,11 @@ class Component:
 		self.position = (min_x, min_y)
 	
 	def update_image(self, image):
+		if (image.width / image.height > self.mask.width / self.mask.height):
+			self.image = image.resize((image.width * self.mask.height // image.height, self.mask.height))
+		else:
+			self.image = image.resize((self.mask.width, self.mask.width * image.height // image.width))
+		image = image.resize(mask.size)
 		self.image = image.resize(self.mask.size)
 
 
@@ -32,7 +37,7 @@ mask = Image.open("mask_fixed.png")
 pixels = mask.load()
 w, h = mask.width, mask.height
 
-colors = [(76, 76, 76), (197, 197, 197), (255, 0, 0), (0, 0, 0), (0, 0, 255), (0, 255, 0)]
+colors = [(64, 64, 64), (0, 0, 0), (173, 173, 173), (205, 205, 205), (134, 134, 134), (92, 92, 92), (48, 48, 48), (150, 0, 255), (0, 255, 0), (255, 0, 0), (255, 255, 255), (255, 0, 132), (0, 255, 119), (255, 255, 0), (255, 129, 0), (0, 255, 255), (0, 0, 255), (0, 129, 255), (255, 0, 255), (144, 144, 144)]
 colors_norm = list(map(lambda c: (c[0] / 255.0, c[1] / 255.0, c[2] / 255.0), colors))
 colors_hsv = list(map(lambda c: colorsys.rgb_to_hsv(c[0], c[1], c[2]), colors_norm))
 
@@ -64,7 +69,7 @@ for image_path in os.listdir(light_path):
 		light_images.append(Image.open(os.path.join(light_path, image_path)).convert('RGBA'))
 
 result = mask.copy()
-for i in range(n):
+for i in tqdm(range(n)):
 	pick = random.randint(0, 10000)
 	components[i].update_image(light_images[pick % len(light_images)] if colors_hsv[i][1] > 0.9 else dark_images[pick % len(dark_images)])
 	result.paste(components[i].image, components[i].position, components[i].mask)

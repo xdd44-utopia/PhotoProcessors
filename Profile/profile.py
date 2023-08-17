@@ -14,7 +14,7 @@ class Component:
 		for x in range(mask.width):
 			for y in range(mask.height):
 				r, g, b, a = pixels[x, y]
-				if r == 255 and g == 255 and b == 255:  # Check for white pixels
+				if r == 255 and g == 255 and b == 255:
 					min_x = min(min_x, x)
 					min_y = min(min_y, y)
 					max_x = max(max_x, x)
@@ -37,7 +37,7 @@ mask = Image.open("mask_fixed.png")
 pixels = mask.load()
 w, h = mask.width, mask.height
 
-colors = [(64, 64, 64), (0, 0, 0), (173, 173, 173), (205, 205, 205), (134, 134, 134), (92, 92, 92), (48, 48, 48), (150, 0, 255), (0, 255, 0), (255, 0, 0), (255, 255, 255), (255, 0, 132), (0, 255, 119), (255, 255, 0), (255, 129, 0), (0, 255, 255), (0, 0, 255), (0, 129, 255), (255, 0, 255), (144, 144, 144)]
+colors = [(64, 64, 64), (0, 0, 0), (173, 173, 173), (205, 205, 205), (134, 134, 134), (92, 92, 92), (48, 48, 48), (150, 0, 255), (0, 255, 0), (255, 0, 0), (255, 255, 255), (255, 0, 132), (0, 0, 255), (0, 255, 119), (255, 255, 0), (255, 129, 0), (0, 255, 255), (0, 129, 255), (255, 0, 255), (101, 101, 101)]
 colors_norm = list(map(lambda c: (c[0] / 255.0, c[1] / 255.0, c[2] / 255.0), colors))
 colors_hsv = list(map(lambda c: colorsys.rgb_to_hsv(c[0], c[1], c[2]), colors_norm))
 

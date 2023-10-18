@@ -5,7 +5,7 @@ import random
 from tqdm import tqdm
 
 dirName = "../Dark"
-# dirName = "../Light"
+dirName = "../Light"
 size = 1000
 
 collection = []
@@ -27,9 +27,9 @@ for imagePath in tqdm(os.listdir(dirName)):
 
 random.shuffle(collection)
 
-for i in tqdm(range(20)):
+for i in tqdm(range(100)):
 	mix = []
-	for j in range(10):
+	for j in range(5):
 		pick = random.randint(0, 10000)
 		mix.append(collection[pick % len(collection)])
 	mix = np.array(mix)

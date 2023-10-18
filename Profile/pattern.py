@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
 
-from settings import w, h, uw, uh, unit
+from settings import w, h, uw, uh, unit, totalFrame
 from shape import distSegment, mapShape
 
 class CircleGroup:
-	def __init__(self, dim, s, t, span):
+	def __init__(self, dim, s, t, speed, scale):
 		self.w, self.h = dim
 
 		s = (
@@ -21,7 +21,8 @@ class CircleGroup:
 		self.t = t
 		self.x, self.y = self.s
 
-		self.span = span
+		self.speed = speed
+		self.scale = scale
 
 	def isInside(self, p):
 		x, y = p
@@ -42,8 +43,9 @@ class CircleGroup:
 		return 2 / (self.distGroup(p) / 100 + 1) - 1
 
 	def update(self, f):
-		self.x = (self.t[0] - self.s[0]) * (f % self.span) / self.span + self.s[0]
-		self.y = (self.t[1] - self.s[1]) * (f % self.span) / self.span + self.s[1]
+		tt = ((f * self.speed) % totalFrame) / totalFrame
+		self.x = (self.t[0] - self.s[0]) * tt + self.s[0]
+		self.y = (self.t[1] - self.s[1]) * tt + self.s[1]
 
 	def getMask(self):
 		mask = np.zeros((w, h), dtype=np.uint8)
@@ -57,9 +59,9 @@ class CircleGroup:
 				int((self.y + self.h) // unit + 2)
 			):
 				p = (i * unit, j * unit)
-				r = int(unit * self.mapGroup(p) * mapShape(p) / 2)
+				r = int(unit * self.mapGroup(p) * mapShape(p) * self.scale / 2)
 				
 				if (i >= 0 and i < uh and j >= 0 and j < uw and r > 0):
-					cv2.circle(mask, (j * unit, i * unit), r, (255), -1)
+					cv2.circle(mask, (i * unit, j * unit), r, (255), -1)
 		
 		return mask

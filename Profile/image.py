@@ -7,7 +7,7 @@ import math
 
 from settings import w, h
 
-speed = 0.05
+speed = 0.1
 
 def getCollection(dirName):
 	collection = []

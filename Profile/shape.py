@@ -43,4 +43,4 @@ def distShape(p):
 		)
 
 def mapShape(p):
-	return 1 / (distShape(p) + 1)
+	return 1 / (distShape(p) / 20 + 1)

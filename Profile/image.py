@@ -39,7 +39,7 @@ def norm(x, mean):
 	return int(num * 775 / denom)
 
 def sampleCollection(collection, f):
-	sample = cv2.cvtColor(np.zeros((w, h), dtype=np.uint8), cv2.COLOR_GRAY2BGR)
+	sample = cv2.cvtColor(np.zeros((h, w), dtype=np.uint8), cv2.COLOR_GRAY2BGR)
 	f *= speed
 	while (f > len(collection)):
 		f -= len(collection)

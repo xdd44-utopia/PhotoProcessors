@@ -33,10 +33,10 @@ class CircleGroup:
 			return 0
 		else:
 			return min(
-				distSegment(p, self.x, self.y, self.x + self.w, self.y),
-				distSegment(p, self.x, self.y, self.x, self.y + self.h),
-				distSegment(p, self.x + self.w, self.y + self.h, self.x + self.w, self.y),
-				distSegment(p, self.x + self.w, self.y + self.h, self.x, self.y + self.h)
+				distSegment(p, ((self.x, self.y), (self.x + self.w, self.y))),
+				distSegment(p, ((self.x, self.y), (self.x, self.y + self.h))),
+				distSegment(p, ((self.x + self.w, self.y + self.h), (self.x + self.w, self.y))),
+				distSegment(p, ((self.x + self.w, self.y + self.h), (self.x, self.y + self.h)))
 			)
 	
 	def mapGroup(self, p):
@@ -48,7 +48,7 @@ class CircleGroup:
 		self.y = (self.t[1] - self.s[1]) * tt + self.s[1]
 
 	def getMask(self):
-		mask = np.zeros((w, h), dtype=np.uint8)
+		mask = np.zeros((h, w), dtype=np.uint8)
 
 		for i in range(
 			int(self.x // unit),
@@ -61,7 +61,7 @@ class CircleGroup:
 				p = (i * unit, j * unit)
 				r = int(unit * self.mapGroup(p) * mapShape(p) * self.scale / 2)
 				
-				if (i >= 0 and i < uh and j >= 0 and j < uw and r > 0):
+				if (i >= 0 and i < uw and j >= 0 and j < uh and r > 0):
 					cv2.circle(mask, (i * unit, j * unit), r, (255), -1)
 		
 		return mask
